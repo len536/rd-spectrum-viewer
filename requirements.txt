@@ -15,7 +15,7 @@ numpy>=2.0            # 二维矩阵运算、造模拟数据、.npy 读写
 matplotlib>=3.9       # imshow 伪彩图、colorbar、坐标轴；后续 FigureCanvasQTAgg 也来自它
 
 # ── 阶段 2-3：界面（下一步由负责人亲手取消注释并安装）──
-# PySide6>=6.8        # Qt 官方绑定：QMainWindow / 布局 / 信号与槽 / FigureCanvasQTAgg
+PySide6>=6.8        # Qt 官方绑定：QMainWindow / 布局 / 信号与槽 / FigureCanvasQTAgg
 
 # ── 阶段 4：真实数据（确认接口后再定）────────────────
 # scipy>=1.14         # 仅当数据是 MATLAB .mat 格式时才需要 scipy.io.loadmat
