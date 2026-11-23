@@ -54,10 +54,17 @@
 | `01_backend/plot_rd_demo.py` | 读数据 → 画 MATLAB 风格伪彩图 → 保存 png |
 | `docs/02-阶段1-学习笔记.md` | **逐行讲代码** + 每个知识点 + MATLAB 对照表 + 自测题答案 |
 
-运行（在本仓库根目录，PowerShell / Git Bash 均可）：
+运行（先进入本仓库根目录）：
 ```bash
+cd /d D:\WorkBuddyWorkspace\2026-11-23-12-10-51\rd-spectrum-viewer
 .venv\Scripts\python.exe 01_backend\make_fake_rd.py
 .venv\Scripts\python.exe 01_backend\plot_rd_demo.py
+```
+> `cd /d` 的 `/d` 是 CMD 专用：同时切**盘符**和目录。只写 `cd D:\xxx` 不会切到 D 盘，相对路径仍会在 C 盘找，报「系统找不到指定的路径」。PowerShell / Git Bash 不需要 `/d`。
+
+💡 懒得切目录也行，**全绝对路径一步到位**（任何目录下都能跑，脚本靠 `__file__` 自己定位 `data/` 和 `docs/`）：
+```bash
+D:\WorkBuddyWorkspace\2026-11-23-12-10-51\rd-spectrum-viewer\.venv\Scripts\python.exe D:\WorkBuddyWorkspace\2026-11-23-12-10-51\rd-spectrum-viewer\01_backend\plot_rd_demo.py
 ```
 
 ## 五、环境搭建：掌握规则与从零复现
