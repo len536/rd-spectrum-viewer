@@ -1,14 +1,13 @@
-"""阶段 2 · 主窗口骨架：最小可跑的 PySide6 程序。
+"""阶段 2 · 主窗口：最小可跑的 PySide6 窗口程序。
 
-规矩（阶段 1 收口时定死）：
-  本文件只给骨架 + TODO，关键逻辑由负责人亲手填。
-  跑通不算掌握，能讲出每一行「为什么」才算。
+对照 docs/03-阶段2-学习笔记.md 看逐段讲解。
+能讲出每一行「为什么」才算掌握——跑通只是第一步。
 
 运行（任意目录下都行，脚本按 __file__ 自己找项目根）：
   .venv\\Scripts\\python.exe 02_ui\\main_window.py
-  VS Code 点 ▶ 也行，解释器已用 .vscode/settings.json 固定。
+  VS Code 点 ▶ 也行。
 
-验收：弹窗 + 点按钮能弹出选文件框 + 选完标签和状态栏都变。
+功能：点按钮 → 弹系统选文件框 → 选中后标签显示文件名、状态栏给反馈。
 """
 import sys
 from pathlib import Path
@@ -38,42 +37,38 @@ class MainWindow(QMainWindow):
         central = QWidget()
         self.setCentralWidget(central)
 
-        # K2.4: 控件先造出来；「摆在哪」是 TODO 1 的事
+        # K2.4: 控件先造出来；「摆在哪」由下面的布局决定
         self.label = QLabel("还没有选择文件")
         self.button = QPushButton("选择 RD 数据文件…")
 
-        # ── TODO 1（K2.3 布局，K2.7 父子对象）────────────────
-        # 目标：让 label 在上、button 在下，窗口拉伸时跟着变。
-        # 提示：
-        #   layout = QVBoxLayout(central)   # 括号里传 central = 直接认父（K2.7）
-        #   layout.addWidget(self.label)
-        #   layout.addWidget(self.button)
-        # 为什么不用 self.label.move(x, y)？见笔记 2.3 节。
-        # ───────────────────────────────────────────────────
-        pass  # ← 删掉这行，写你的代码
+        # K2.3 + K2.7: 竖布局把标签、按钮依次挂到中央控件上。
+        # QVBoxLayout(central) 的 central 就是「认父」，父子同生共死（K2.7）。
+        # 用布局而非 move(x, y)：窗口缩放时控件自动重排，不用钉死坐标。
+        layout = QVBoxLayout(central)
+        layout.addWidget(self.label)
+        layout.addWidget(self.button)
 
-        # ── TODO 2（K2.5 信号与槽）───────────────────────────
-        # 目标：按钮被点 → 自动调用 self.on_open_file。
-        # 提示：self.button.clicked.______(self.on_open_file)
-        # 坑：括号里传的是「函数本身」，不要写 ()！
-        #     写 connect(self.on_open_file()) 会在连接那一刻就执行，且连了个 None。
-        # ───────────────────────────────────────────────────
-        pass  # ← 删掉这行，写你的代码
+        # K2.5: 把按钮的 clicked 信号连到 on_open_file 槽函数。
+        # 注意传的是函数本身 on_open_file，不是 on_open_file()——后者会立刻执行。
+        self.button.clicked.connect(self.on_open_file)
 
-        # K2.2: 状态栏是 QMainWindow 自带的，一句话取出来用
+        # K2.2: 状态栏是 QMainWindow 自带的一句话取出来用
         self.statusBar().showMessage("就绪")
 
-    # ── TODO 3（K2.4 QFileDialog，K2.6 槽函数）────────────────
-    # 目标：点按钮后做三件事：
-    #   ① QFileDialog.getOpenFileName(...) 弹出系统选文件框
-    #      它返回 (路径字符串, 过滤器字符串) 两个值，用两个变量接
-    #   ② 路径非空时 self.label.setText(...) 显示它
-    #      （只想显示文件名可用 Path(路径).name）
-    #   ③ self.statusBar().showMessage(...) 给一句反馈
-    # 提示：getOpenFileName 的第一个参数是父窗口 self，第二个是对话框标题。
-    # ──────────────────────────────────────────────────────
+    # K2.4 + K2.6: 槽函数——按钮被点时由事件循环自动调用。
     def on_open_file(self):
-        pass  # ← 删掉这行，写你的代码
+        # ① 弹系统选文件框，返回 (路径, 过滤器) 两个值；第二个用不上，用 _ 接住丢弃。
+        path, _ = QFileDialog.getOpenFileName(self, "选择 RD 数据")
+
+        # ② 用户点「取消」时 path 是空字符串 ""，直接给个反馈并返回。
+        if not path:
+            self.statusBar().showMessage("已取消选择")
+            return
+
+        # ③ 真选了文件：标签只显示文件名（Path(path).name = 去掉目录只剩最后一段），
+        #    状态栏显示完整路径。f"..." 是 f-string，把 {path} 换成变量的值。
+        self.label.setText(Path(path).name)
+        self.statusBar().showMessage(f"已选择: {path}")
 
 
 def main():
@@ -81,7 +76,7 @@ def main():
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()  # 不 show() 窗口不会出现在屏幕上
-    sys.exit(app.exec())  # K2.1: 进入事件循环；关窗后 exec() 才返回，sys.exit 拿返回值退出
+    sys.exit(app.exec())  # K2.1: 进事件循环；关窗后 exec() 才返回，sys.exit 拿返回值退出
 
 
 if __name__ == "__main__":
