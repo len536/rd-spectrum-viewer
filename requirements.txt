@@ -1,0 +1,24 @@
+# RD 谱图上位机 · 分阶段依赖清单
+#
+# 安装命令（在本仓库根目录执行）：
+#   .venv\Scripts\python.exe -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+#
+# 为什么要"分阶段装"而不是一次装全：
+#   1) 每阶段只引入必要依赖，报错时能立刻定位是谁引起的；
+#   2) PySide6 约 150MB，阶段 1 用不到，没必要现在等下载；
+#   3) 组会讲"我的环境怎么演进的"时，这份文件就是证据。
+#
+# 知识点对应：docs/00-知识点地图.md → K0.2 / K0.3
+
+# ── 阶段 1：后端出图（现在装）──────────────────────
+numpy>=2.0            # 二维矩阵运算、造模拟数据、.npy 读写
+matplotlib>=3.9       # imshow 伪彩图、colorbar、坐标轴；后续 FigureCanvasQTAgg 也来自它
+
+# ── 阶段 2-3：界面（下一步由负责人亲手取消注释并安装）──
+# PySide6>=6.8        # Qt 官方绑定：QMainWindow / 布局 / 信号与槽 / FigureCanvasQTAgg
+
+# ── 阶段 4：真实数据（确认接口后再定）────────────────
+# scipy>=1.14         # 仅当数据是 MATLAB .mat 格式时才需要 scipy.io.loadmat
+
+# ── 阶段 5：打包（最后装）──────────────────────────
+# pyinstaller>=6.11   # 打成 .exe，交付给老师

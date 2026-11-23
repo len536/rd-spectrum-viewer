@@ -1,0 +1,31 @@
+# ── Python 虚拟环境：体积大、可重建，绝不进仓库 ──
+.venv/
+venv/
+
+# ── Python 运行产物 ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# ── 运行时生成的模拟数据：脚本随时能重造，不进仓库 ──
+# 注意：真实数据拿到后也放 data/，同样不进仓库（体积大 + 可能涉密）
+data/*.npy
+data/*.csv
+data/*.mat
+data/*.bin
+data/*.txt
+
+# 但保留目录本身
+!data/.gitkeep
+
+# ── 打包产物 ──
+build/
+dist/
+*.spec
+
+# ── 编辑器 ──
+.idea/
+.vscode/
+.DS_Store
+
+# ⚠️ docs/images/ 里的出图成果**不忽略** —— 要 commit 进仓库，组会直接展示

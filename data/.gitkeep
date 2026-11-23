@@ -1,0 +1,1 @@
+# 保留 data/ 目录（模拟数据由 make_fake_rd.py 生成，不进仓库）
