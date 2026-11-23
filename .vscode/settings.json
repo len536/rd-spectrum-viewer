@@ -1,0 +1,7 @@
+{
+  // 让 VS Code 的 ▶、调试、集成终端都默认使用项目虚拟环境。
+  // 前提：用「文件 → 打开文件夹」直接打开 rd-spectrum-viewer 这一层，
+  // 不要打开外层 2026-11-23-12-10-51，否则 ${workspaceFolder} 会指错目录。
+  // 参考：docs/02-阶段1-学习笔记.md「现场案例 2」
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe"
+}

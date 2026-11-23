@@ -25,7 +25,8 @@ dist/
 
 # ── 编辑器 ──
 .idea/
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .DS_Store
 
 # ⚠️ docs/images/ 里的出图成果**不忽略** —— 要 commit 进仓库，组会直接展示
