@@ -45,7 +45,7 @@ from rd_data import load_rd  # noqa: E402  ★ 复用唯一数据入口，绘图
 
 # 绘图参数与阶段 1 完全一致，保证「接近 MATLAB」的风格连续
 VMIN, VMAX = -50.0, 0.0
-CMAP = "jet"
+CMAP = "viridis"      # 负责人亲手改：验证 cmap 换表，颜色变、数据不变
 
 
 class RdViewer(QMainWindow):
