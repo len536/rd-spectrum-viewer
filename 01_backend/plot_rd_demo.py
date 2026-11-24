@@ -13,9 +13,14 @@ MATLAB 里的等价写法：
   docs/images/rd_demo_stage1.png
 """
 from pathlib import Path
+import sys
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+
+# ★ 阶段 3 起，数据入口抽到独立模块 rd_data.py，脚本与界面共用同一份。
+# 脚本方式运行时，脚本所在目录（01_backend）在 sys.path 里，直接 import 即可。
+from rd_data import load_rd
 
 # ============ ① 全局样式：一次设置，整张图生效（相当于 MATLAB 的 set(groot,...)）============
 plt.rcParams["font.sans-serif"] = ["Microsoft YaHei", "SimHei", "DejaVu Sans"]  # 中文不变方框
@@ -34,22 +39,8 @@ DATA_FILE = ROOT / "data" / "fake_rd.npy"
 OUT_PNG = ROOT / "docs" / "images" / "rd_demo_stage1.png"
 
 
-def load_rd(path):
-    """
-    ★ 唯一的数据入口 —— 整个项目最重要的设计（知识点 K1.17）。
-
-    现在：读我们造的 .npy。
-    以后：真数据来了（.txt / .csv / .mat / Socket），**只改这个函数内部**，
-          保证返回 shape=(距离门, 多普勒通道) 的二维 float 数组（单位 dB）即可。
-    绘图函数、以后的 Qt 界面代码都不用动 → 接口没定也能并行开发。
-    """
-    rd = np.load(path)
-    if rd.ndim != 2:
-        raise ValueError(f"RD 谱必须是二维矩阵，实际 {rd.ndim} 维，shape={rd.shape}")
-    print(f"[load_rd] shape={rd.shape}, dtype={rd.dtype}, "
-          f"范围 {rd.min():.1f} ~ {rd.max():.1f} dB")
-    return rd
-
+# load_rd 已移到 01_backend/rd_data.py（阶段 3），本脚本从那里 import。
+# 知识点 K1.17「单一入口」不变：现在脚本和 Qt 界面 import 的是同一个函数。
 
 def plot_rd(rd, out_png=OUT_PNG, cmap=CMAP, vmin=VMIN, vmax=VMAX):
     """把二维矩阵画成 MATLAB 风格伪彩图。★ 这个函数以后会被 Qt 界面原样复用。"""
