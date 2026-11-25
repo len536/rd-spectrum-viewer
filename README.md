@@ -137,6 +137,9 @@ rd-spectrum-viewer/
 ├── 02_ui/                 阶段2：PySide6 主窗口骨架
 ├── 03_embed/              阶段3：RD 图嵌入窗口
 ├── 04_thread/             阶段4：★ 当前主程序（多格式 + QThread 防卡）
+│   ├── rd_viewer_threaded.py  主程序
+│   ├── make_slow_rd.py        造大文件(109MB csv)供卡顿实验
+│   └── verify_no_freeze.py    心跳检测：证明阶段3卡/阶段4不卡
 ├── data/                  运行时生成的模拟数据（gitignore，可自动重造）
 └── .venv/                 虚拟环境（gitignore）
 ```
