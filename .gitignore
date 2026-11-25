@@ -18,10 +18,15 @@ data/*.txt
 # 但保留目录本身
 !data/.gitkeep
 
-# ── 打包产物 ──
-build/
-dist/
+# ── 打包产物（体积大、可从源码重建，不进仓库）──
+# build/dist 及调试时用的带后缀变体（dist_v2 / build_final 等）
+build*/
+dist*/
 *.spec
+*.log              # 打包日志
+RD_*.exe           # 根目录可能残留的 exe
+
+# 但交付版 exe 如需随仓库分发，用 git add -f 强制加入（默认不进）
 
 # ── 编辑器 ──
 .idea/
