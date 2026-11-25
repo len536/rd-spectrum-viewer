@@ -23,8 +23,12 @@ data/*.txt
 build*/
 dist*/
 *.spec
-*.log              # 打包日志
-RD_*.exe           # 根目录可能残留的 exe
+
+# 打包日志（注意：gitignore 行内注释不生效，注释必须单独一行）
+*.log
+
+# 根目录可能残留的 exe
+RD_*.exe
 
 # 但交付版 exe 如需随仓库分发，用 git add -f 强制加入（默认不进）
 
