@@ -11,9 +11,18 @@
 
 输出两张对照：阶段3（主线程直接读）vs 阶段4（QThread 后台读）的最大心跳延迟。
 """
+import os
 import sys
 import time
 from pathlib import Path
+
+# 无界面运行：本脚本只测主线程响应，不显示窗口，用 offscreen 后端最省事。
+# ★ 关键坑：环境变量要在 import PySide6 之前设好。
+#   若在命令行里临时设，Windows CMD 写 `set QT_QPA_PLATFORM=offscreen`，
+#   PowerShell 写 `$env:QT_QPA_PLATFORM="offscreen"`；
+#   我先前给的 `QT_QPA_PLATFORM=offscreen python ...` 是 Linux/Mac 写法，CMD 不认。
+#   现在直接写进代码，跨平台通用，你不用在命令行敲任何前缀。
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 import matplotlib
 matplotlib.use("QtAgg")
