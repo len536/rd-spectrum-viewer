@@ -54,7 +54,8 @@ class LoadWorker(QThread):
 
     def __init__(self, path):
         super().__init__()
-        self.path = path
+        # ★ QFileDialog 返回的是字符串，这里转成 Path，后面 .name 才能用
+        self.path = Path(path)
 
     def run(self):
         """线程真正干的活——只做读数据，绝不碰界面控件。"""
